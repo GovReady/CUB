@@ -1,5 +1,7 @@
 # CaC (Compliance as Code) Utility Belt
 
+"Only you can prevent copy and paste."
+
 Collection and extension of parsers from GovReady for parsing SSPs
 and control implementation statements.
 
