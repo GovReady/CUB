@@ -1,0 +1,12 @@
+click
+graph-theory
+jsonschema # MIT License
+pydantic
+pytest
+python-slugify
+simplejson
+spacy
+
+importlib-metadata==3.3.0
+typing-extensions>=3.6.4
+setuptools==52.0.0 # Apache style license

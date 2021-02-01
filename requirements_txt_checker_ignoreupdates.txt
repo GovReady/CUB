@@ -1,0 +1,2 @@
+# Add requirements to ignore
+#Django==3.0.6

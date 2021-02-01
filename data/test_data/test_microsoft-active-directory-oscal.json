@@ -1,0 +1,54 @@
+{
+  "component-definition": {
+    "uuid": "2760587d-4d1b-4a84-ac00-ce763ceb5bea",
+    "metadata": {
+      "title": "Microsoft Active Directory",
+      "version": "1.0",
+      "oscal-version": "1.0.0-rc1",
+      "published": "2021-01-26T09:23:23.894461+00:00",
+      "last-modified": "2021-01-26T09:23:23.894461+00:00"
+    },
+    "components": {
+      "f3dd4857-ab8c-47f6-b1dc-7e966897cbf0": {
+        "title": "Microsoft Active Directory",
+        "type": "software",
+        "description": "Microsoft Active Directory",
+        "control-implementations": [
+          {
+            "uuid": "1eb7a3e7-77fc-4e9c-b1fb-b98a83ac0af2",
+            "description": "NIST_SP-800-171_rev1",
+            "source": "NIST_SP-800-171_rev1",
+            "implemented-requirements": [
+              {
+                "uuid": "31276528-77a6-4f4c-a782-d7f9842366b8",
+                "control-id": "3.1.2",
+                "description": "Limit system access to functions that authorized users are permitted by security groups.",
+                "statements": {
+                  "3.1.2_smt": {
+                    "uuid": "3a6624a9-86bb-43af-8352-e28ecd9de239",
+                    "description": "Limit system access to functions that authorized users are permitted by security groups.",
+                    "remarks": ""
+                  }
+                },
+                "remarks": "From: sandbox/file.txt"
+              },
+              {
+                "uuid": "265a039a-201e-4be8-b876-501ad5d8706d",
+                "control-id": "3.1.10",
+                "description": "Company uses the Microsoft Active Directory (AD) Group Policy Object (GPO) to control screen saver timeout and length of time of idle time before the screen saver is enabled.",
+                "statements": {
+                  "3.1.10_smt": {
+                    "uuid": "eebc40e6-e9b2-45e0-8b38-ab92ee48a273",
+                    "description": "Company uses the Microsoft Active Directory (AD) Group Policy Object (GPO) to control screen saver timeout and length of time of idle time before the screen saver is enabled.",
+                    "remarks": ""
+                  }
+                },
+                "remarks": "From: sandbox/file.txt"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

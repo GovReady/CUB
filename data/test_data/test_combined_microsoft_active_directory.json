@@ -1,0 +1,38 @@
+{
+    "metadata": [
+        {
+            "source": "sandbox/file.txt",
+            "catalog": "NIST_SP-800-171_rev1",
+            "remarks": "",
+            "created": "2021-01-22T22:18:09+00:00",
+            "command": "ssp.py recognize --components sandbox/known-components.json --model sandbox/components-model --catalog NIST_SP-800-171_rev1 sandbox/file.txt"
+        },
+        {
+            "source": "sandbox/file2.txt",
+            "catalog": "NIST_SP-800-171_rev1",
+            "remarks": "",
+            "created": "2021-01-22T22:18:09+00:00",
+            "command": "ssp.py recognize --components sandbox/known-components.json --model sandbox/components-model --catalog NIST_SP-800-171_rev1 sandbox/file2.txt"
+        }
+    ],
+    "components": {
+        "Microsoft Active Directory": {
+            "NIST_SP-800-171_rev1": {
+                "3.1.2": [
+                    {
+                        "source": "sandbox/file.txt",
+                        "text": "Limit system access to functions that authorized users are permitted by security groups."
+                    }
+
+                ],
+                "3.1.10": [
+                    {
+                        "source": "sandbox/file.txt",
+                        "text": "Company uses the Microsoft Active Directory (AD) Group Policy Object (GPO) to control screen saver timeout and length of time of idle time before the screen saver is enabled."
+                    }
+
+                ]
+            }
+        }
+    }
+}
