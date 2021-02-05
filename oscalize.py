@@ -1,9 +1,9 @@
 import json
+from collections import defaultdict
 from datetime import datetime
 from datetime import timezone
 from pathlib import Path
 from typing import Dict
-from collections import defaultdict
 
 import click
 
@@ -62,22 +62,24 @@ def oscalify(components: Dict, title: str):
                 # emit statements found in this control
                 for control_key, control_descs in by_control_id[control_id]:
                     statement_id = control_to_statement_id(control_key)
-                    
+
                     # we may have multiple statements that map to the same
                     # statement_id, so we will collect and concatenate
                     # the statements texts and ssp sources
                     texts = []
                     ssp_sources = []
-                    
-                    for control_desc in control_descs:
-                        texts.append(control_desc['text'])
-                        ssp_sources.append(control_desc['source'])
 
-                    description = '\n'.join(texts)
-                    remarks = "From " + ', '.join(ssp_sources)
-                    
+                    for control_desc in control_descs:
+                        texts.append(control_desc["text"])
+                        ssp_sources.append(control_desc["source"])
+
+                    description = "\n".join(texts)
+                    remarks = "From " + ", ".join(ssp_sources)
+
                     statement = Statement(
-                        statement_id=statement_id, description=description, remarks=remarks
+                        statement_id=statement_id,
+                        description=description,
+                        remarks=remarks,
                     )
                     implemented_requirement.add_statement(statement)
 

@@ -11,13 +11,13 @@ and control implementation statements.
 
 - Use the tool `ssp.py` to convert existing machine
   readable SSPs into a standard format (e.g., CSV or JSON-L)
-- Generate samples of the standard format SSPs using `sample.py`
+- Generate samples of the standard format SSPs using `ssp.py sample`
 - Load samples into annotator and annotate.  Download and save
   annotations in JSON format.
 - Convert JSON annotations into training format using
   `annotations_to_training.py`
 - Train and generate a component recognition model with `train.py`
-- Apply the model to SSPs using `ssp.py` to recognize component
+- Apply the model to SSPs using `ssp.py recognize` to recognize component
   entities and produce a candidate set of components.
 - Based on the output, create a `components.json` file to fine tune
   the component identification process.  You can exclude certain
@@ -111,13 +111,12 @@ or
 python ssp.py --reader csv convert --format json-l SSP1.csv > SSP1.jsonl
 ```
 
-### sample.py
+### ssp.py (for sampling)
 
-To produce a subset of SSP statements from a PSV file generated in the
-previous step, use the `sample.py` program:
+To produce a subset of SSP statements from an SSP file, use the `ssp.py sample` command:
 
 ```
-python sample.py --number 10 SSP1.txt > SSP1-sample.txt
+python ssp.py sample sample --number 10 SSP1.csv > SSP1-sample.txt
 ```
 
 The above will generate a 10 line sample from `SSP1.txt` and store in
@@ -257,8 +256,11 @@ python oscalize.py --title "My Title" combined.json > oscal-components.json
 ```
 
 Example with this repo's test data:
+
 ```
-python oscalize.py --title "Microsoft Active Directory"  data/test_data/test_combined_microsoft_active_directory.json > data/test_data/test_microsoft-active-directory-oscal.json
+python oscalize.py --title "Microsoft Active Directory"  \
+    data/test_data/test_combined_microsoft_active_directory.json \
+    > data/test_data/test_microsoft-active-directory-oscal.json
 ```
 
 Use the `--component COMPONENT` option to select a single component from
