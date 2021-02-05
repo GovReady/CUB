@@ -3,6 +3,7 @@ from datetime import datetime
 from datetime import timezone
 from pathlib import Path
 from typing import Dict
+from collections import defaultdict
 
 import click
 
@@ -41,32 +42,44 @@ def oscalify(components: Dict, title: str):
                 source=catalog_name, description=catalog_name
             )
             component.control_implementations.append(control_implementation)
+
+            # collect statements by OSCAL control id
+            by_control_id = defaultdict(list)
             for control_key, control_descs in controls.items():
-                descriptions = []
-                ssp_sources = []
+                oscal_control_id = oscalize_control_id(control_key)
+                by_control_id[oscal_control_id].append((control_key, control_descs))
 
-                for control_desc in control_descs:
-                    descriptions.append(control_desc["text"])
-                    ssp_sources.append(control_desc["source"])
-
-                description = "\n\n".join(descriptions)
-                remarks = "From: " + ", ".join(ssp_sources)
-
-                control_id = oscalize_control_id(control_key)
-
+            # emit an implemented_requirement for each control
+            for control_id in sorted(by_control_id.keys()):
+                description = "Statements related to {}".format(control_id)
                 implemented_requirement = ImplementedRequirement(
-                    control_id=control_id, description=description, remarks=remarks
+                    control_id=control_id, description=description
                 )
-
                 control_implementation.implemented_requirements.append(
                     implemented_requirement
                 )
 
-                statement_id = control_to_statement_id(control_key)
-                statement = Statement(
-                    statement_id=statement_id, description=description
-                )
-                implemented_requirement.add_statement(statement)
+                # emit statements found in this control
+                for control_key, control_descs in by_control_id[control_id]:
+                    statement_id = control_to_statement_id(control_key)
+                    
+                    # we may have multiple statements that map to the same
+                    # statement_id, so we will collect and concatenate
+                    # the statements texts and ssp sources
+                    texts = []
+                    ssp_sources = []
+                    
+                    for control_desc in control_descs:
+                        texts.append(control_desc['text'])
+                        ssp_sources.append(control_desc['source'])
+
+                    description = '\n'.join(texts)
+                    remarks = "From " + ', '.join(ssp_sources)
+                    
+                    statement = Statement(
+                        statement_id=statement_id, description=description, remarks=remarks
+                    )
+                    implemented_requirement.add_statement(statement)
 
     return Root(component_definition=component_def)
 

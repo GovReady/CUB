@@ -43,19 +43,19 @@ class TestAllComponentFilter(object):
 class TestPatternBuilder(object):
     def test_empty(self):
         components = {"components": {}}
-        patterns = PatternBuilder(components).patterns()
+        patterns = PatternBuilder(components, "S-Component").patterns()
         assert patterns == []
 
     def test_component(self):
         components = {"components": {"Component A": {}}}
-        patterns = PatternBuilder(components).patterns()
+        patterns = PatternBuilder(components, "S-Component").patterns()
         assert patterns == [
             {"label": "S-Component", "pattern": "Component A", "id": "Component A"}
         ]
 
     def test_component_with_aka(self):
         components = {"components": {"Component A": {"aka": ["Comp-A", "Comp A"]}}}
-        patterns = PatternBuilder(components).patterns()
+        patterns = PatternBuilder(components, "S-Component").patterns()
         assert len(patterns) == 3
         assert {
             "label": "S-Component",

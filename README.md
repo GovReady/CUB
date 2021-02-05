@@ -5,15 +5,13 @@
 Collection and extension of parsers from GovReady for parsing SSPs
 and control implementation statements.
 
-Private Github repo to protect any proprietary data.
-
 ## Component extraction
 
 ### Overview
 
 - Use the tool `ssp.py` to convert existing machine
-  readable SSPs into a standard "PSV" format
-- Generate samples of the PSV format SSPs using `sample.py`
+  readable SSPs into a standard format (e.g., CSV or JSON-L)
+- Generate samples of the standard format SSPs using `sample.py`
 - Load samples into annotator and annotate.  Download and save
   annotations in JSON format.
 - Convert JSON annotations into training format using
@@ -30,6 +28,11 @@ Private Github repo to protect any proprietary data.
   `combine.py`
 - Generate markdown for each component with `component_report.py`
 
+There are some sample data files in the `data` directory.
+
+The shell script `sample-pipeline.sh` demonstrates some very simple
+processing using sample data.
+
 ### ssp.py (overview)
 
 The `ssp.py` tool performs operations on machine readable SSP's.  Command line
@@ -45,10 +48,9 @@ Use the `--reader` CLI option to specify the format to be read.
 
 `--reader csv|psv|json-l`
 
-We've run into two different formats so far:
-
-- a CSV format ("csv")
-- a PSV format
+- CSV format ("csv")
+- PSV format ("pipe-separated values")
+- JSON-L format
 
 By default, the parser expects the control ID to be in the first
 column, and the implementation statement text to be in the second
@@ -416,3 +418,12 @@ Run tests with pytest:
 ```
 pytest
 ```
+
+## License
+
+GNU General Public License v3.0 or later.
+
+Sample data files were based on content from the [CivicActions SSP
+Toolkit](https://github.com/CivicActions/ssp-toolkit).
+
+SPDX-License-Identifier: `GPL-3.0-or-later`
