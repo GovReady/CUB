@@ -1,4 +1,5 @@
 import csv
+import random
 import re
 import sys
 from collections import defaultdict
@@ -204,8 +205,9 @@ def cli(ctx, reader, encoding, verbose, control_id_col, statement_col, skip_line
     Parse and process a machine-readable SSP from FILENAME.
 
     Processing options are:
-        - convert SSP into a simple Pipe Separated Value (PSV) format
+        - convert structured SSP data from one format to another
         - recognize likely component entities based on a trained model
+        - match components by a rule-based pattern matcher
     """
 
     ctx.ensure_object(dict)
@@ -220,7 +222,13 @@ def cli(ctx, reader, encoding, verbose, control_id_col, statement_col, skip_line
 
 
 def write_psv_statement(statement: ControlStatement):
-    print(statement.control, "|", statement.text)
+    # we don't want newlines in this format
+    print(statement.control, "|", statement.text.replace("\n", " ").strip())
+
+
+def write_csv_statement(statement: ControlStatement):
+    writer = csv.writer(sys.stdout)
+    writer.writerow([statement.control, statement.text])
 
 
 def write_jsonl_statement(statement: ControlStatement):
@@ -228,15 +236,17 @@ def write_jsonl_statement(statement: ControlStatement):
 
 
 @cli.command()
-@click.option("--format", type=click.Choice(["psv", "json-l"]), default="psv")
+@click.option("--format", type=click.Choice(["csv", "psv", "json-l"]), default="psv")
 @click.argument("filename", type=click.Path(exists=True), required=True)
 @click.pass_context
 def convert(ctx, filename, format):
-    if format == "psv":
-        writer = write_psv_statement
-    elif format == "json-l":
-        writer = write_jsonl_statement
+    writers = {
+        "csv": write_csv_statement,
+        "psv": write_psv_statement,
+        "json-l": write_jsonl_statement,
+    }
 
+    writer = writers[format]
     statements = read_statements(ctx, filename)
     for statement in statements:
         writer(statement)
@@ -356,17 +366,22 @@ def collate_statements(
 
 
 class PatternBuilder:
-    def __init__(self, components):
+    def __init__(self, components, component_entity_label):
         self.components = components["components"]
+        self.entity_label = component_entity_label
 
     def patterns(self):
         pattern_list = []
         for component, body in self.components.items():
             pattern_id = component
-            pattern = {"label": "S-Component", "pattern": component, "id": pattern_id}
+            pattern = {
+                "label": self.entity_label,
+                "pattern": component,
+                "id": pattern_id,
+            }
             pattern_list.append(pattern)
             for aka in body.get("aka", []):
-                pattern = {"label": "S-Component", "pattern": aka, "id": pattern_id}
+                pattern = {"label": self.entity_label, "pattern": aka, "id": pattern_id}
                 pattern_list.append(pattern)
         return pattern_list
 
@@ -401,7 +416,9 @@ def match(ctx, filename, model, components, component_entity_label, catalog, rem
     verbose = ctx.obj["verbose"]
     nlp = spacy.load(model)
     ruler = EntityRuler(nlp)
-    ruler.add_patterns(PatternBuilder(json.load(components)).patterns())
+    ruler.add_patterns(
+        PatternBuilder(json.load(components), component_entity_label).patterns()
+    )
     nlp.add_pipe(ruler, before="ner")
 
     statements = read_statements(ctx, filename)
@@ -417,6 +434,27 @@ def match(ctx, filename, model, components, component_entity_label, catalog, rem
     write_recognition(
         make_metadata(filename, catalog, remarks), statements_by_component
     )
+
+
+@cli.command()
+@click.option(
+    "--number", type=int, default=10, help="Number of lines to sample (default 10)"
+)
+@click.pass_context
+@click.argument("filename", type=click.Path(exists=True), required=True)
+def sample(ctx, filename, number):
+    """
+    Generate a random sample of control statements (useful for NLP training)
+    """
+
+    statements = read_statements(ctx, filename)
+
+    number = min(number, len(statements))
+    random.shuffle(statements)
+
+    for i in range(number):
+        text = statements[i].text.replace("\n", " ").strip()
+        print(text)
 
 
 if __name__ == "__main__":

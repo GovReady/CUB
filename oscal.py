@@ -236,7 +236,7 @@ class Statement(OSCALElement):
     uuid: UUID = Field(default_factory=uuid4)
     description: str = ""
     props: Optional[List[Property]]
-    remarks: str = ""
+    remarks: Optional[str]
     links: Optional[List[Link]]
 
     class Config:
@@ -248,7 +248,7 @@ class ImplementedRequirement(OSCALElement):
     control_id: str
     description: str
     statements: Dict[NCName, Statement] = {}
-    remarks: str = ""
+    remarks: Optional[str]
     props: Optional[List[Property]]
 
     def add_statement(self, statement: Statement):

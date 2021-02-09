@@ -24,7 +24,7 @@ from oscal import Statement
 
 class TestValidOSCAL:
     def setup(self):
-        with open("oscal_component_schema.json", "r") as f:
+        with open("schemas/1.0.0-rc1/oscal_component_schema.json", "r") as f:
             self.schema = json.load(f)
 
     @classmethod

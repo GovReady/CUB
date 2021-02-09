@@ -5,21 +5,19 @@
 Collection and extension of parsers from GovReady for parsing SSPs
 and control implementation statements.
 
-Private Github repo to protect any proprietary data.
-
 ## Component extraction
 
 ### Overview
 
 - Use the tool `ssp.py` to convert existing machine
-  readable SSPs into a standard "PSV" format
-- Generate samples of the PSV format SSPs using `sample.py`
+  readable SSPs into a standard format (e.g., CSV or JSON-L)
+- Generate samples of the standard format SSPs using `ssp.py sample`
 - Load samples into annotator and annotate.  Download and save
   annotations in JSON format.
 - Convert JSON annotations into training format using
   `annotations_to_training.py`
 - Train and generate a component recognition model with `train.py`
-- Apply the model to SSPs using `ssp.py` to recognize component
+- Apply the model to SSPs using `ssp.py recognize` to recognize component
   entities and produce a candidate set of components.
 - Based on the output, create a `components.json` file to fine tune
   the component identification process.  You can exclude certain
@@ -29,6 +27,11 @@ Private Github repo to protect any proprietary data.
 - Combine the results of applying the model to muliple SSPs using
   `combine.py`
 - Generate markdown for each component with `component_report.py`
+
+There are some sample data files in the `data` directory.
+
+The shell script `sample-pipeline.sh` demonstrates some very simple
+processing using sample data.
 
 ### ssp.py (overview)
 
@@ -45,10 +48,9 @@ Use the `--reader` CLI option to specify the format to be read.
 
 `--reader csv|psv|json-l`
 
-We've run into two different formats so far:
-
-- a CSV format ("csv")
-- a PSV format
+- CSV format ("csv")
+- PSV format ("pipe-separated values")
+- JSON-L format
 
 By default, the parser expects the control ID to be in the first
 column, and the implementation statement text to be in the second
@@ -109,13 +111,12 @@ or
 python ssp.py --reader csv convert --format json-l SSP1.csv > SSP1.jsonl
 ```
 
-### sample.py
+### ssp.py (for sampling)
 
-To produce a subset of SSP statements from a PSV file generated in the
-previous step, use the `sample.py` program:
+To produce a subset of SSP statements from an SSP file, use the `ssp.py sample` command:
 
 ```
-python sample.py --number 10 SSP1.txt > SSP1-sample.txt
+python ssp.py sample sample --number 10 SSP1.csv > SSP1-sample.txt
 ```
 
 The above will generate a 10 line sample from `SSP1.txt` and store in
@@ -255,8 +256,11 @@ python oscalize.py --title "My Title" combined.json > oscal-components.json
 ```
 
 Example with this repo's test data:
+
 ```
-python oscalize.py --title "Microsoft Active Directory"  data/test_data/test_combined_microsoft_active_directory.json > data/test_data/test_microsoft-active-directory-oscal.json
+python oscalize.py --title "Microsoft Active Directory"  \
+    data/test_data/test_combined_microsoft_active_directory.json \
+    > data/test_data/test_microsoft-active-directory-oscal.json
 ```
 
 Use the `--component COMPONENT` option to select a single component from
@@ -416,3 +420,12 @@ Run tests with pytest:
 ```
 pytest
 ```
+
+## License
+
+GNU General Public License v3.0 or later.
+
+Sample data files were based on content from the [CivicActions SSP
+Toolkit](https://github.com/CivicActions/ssp-toolkit).
+
+SPDX-License-Identifier: `GPL-3.0-or-later`

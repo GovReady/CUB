@@ -1,0 +1,19 @@
+{
+    "components": {
+        "Drupal": {
+            "aka": ["Drupal"]
+        },
+        "CivicActions": {
+            "aka": ["CivicActions"]
+        },
+        "Amazon Web Services": {
+            "aka": ["AWS"]
+        },
+        "Project": {
+            "aka": ["Project"]
+        },
+        "Ilias": {},
+        "Privacy": {},
+        "SSH": {}
+    }
+}
