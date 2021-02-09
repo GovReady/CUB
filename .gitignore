@@ -55,3 +55,6 @@ apps/
 
 # Local generated data files
 data/components
+
+# vscode stuff
+.vscode/
