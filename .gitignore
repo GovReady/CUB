@@ -52,3 +52,6 @@ apps/
 
 # Editor backup files
 *~
+
+# Local generated data files
+data/components
