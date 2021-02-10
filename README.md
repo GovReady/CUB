@@ -85,6 +85,52 @@ There are some sample data files in the `data` directory.
 The shell script `sample-pipeline.sh` demonstrates some very simple
 processing using sample data.
 
+### Data flows
+
+```mermaid
+graph TD;
+    ssps[(SSP's)]
+    tailoring[("Component Tailoring<br/>(json)")]
+    ssps -- json-l/csv --> sample
+    ssps -- json-l/csv --> recognize
+    ssps -- json-l/csv --> match
+    train-->model
+    tailoring --> recognize
+    tailoring --> match
+    r-component -- 0 or more --> combine
+    m-component --0 or more --> combine
+    subgraph training [Training]
+    sample[ssp.py sample]
+    annotator[[NER annotator]]
+    a2t[annotations_to_training.py]
+    train[train.py]
+    sample--text-->annotator
+    annotator--json-->a2t
+    a2t--json-->train
+    model[(spacy model)]
+    end
+
+    subgraph recognizer [Entity Recognition -- per SSP]
+    recognize[ssp.py recognize]
+    model --> recognize
+    recognize --> r-component[(ssp-components.json<br/>)]
+    end
+
+    subgraph matcher [Pattern Match -- per SSP]
+    match[ssp.py match]
+    match --> m-component[(ssp-components.json)]
+    end
+
+    subgraph make-oscal [OSCAL]
+    combine[combine.py]
+    oscalizer[oscalizer.py]
+    oscal[(OSCAL<br/>component-definition)]
+    combine --json<br/>combined format--> oscalizer
+    oscalizer -- json --> oscal
+    end
+
+```
+
 ### ssp.py (overview)
 
 The `ssp.py` tool performs operations on machine readable SSP's.  Command line
