@@ -61,8 +61,8 @@ pytest
 
 ### Overview
 
-- Use the tool `ssp.py` to convert existing machine
-  readable SSPs into a standard format (e.g., CSV or JSON-L)
+- Convert existing pipe-delimited and csv structured SSP control statements
+  into a standard control statement format (e.g., CSV or JSON-L) `ssp.py`.
 - Generate samples of the standard format SSPs using `ssp.py sample`
 - Load samples into annotator and annotate.  Download and save
   annotations in JSON format.
