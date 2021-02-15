@@ -1,7 +1,61 @@
 # CaC (Compliance as Code) Utility Belt
 
-Collection and extension of parsers from GovReady for parsing SSPs
-and control implementation statements.
+Collection and extension of parsers from GovReady for parsing SSPs control implementation statements.
+
+## Installation
+
+### Pre-commit hooks
+
+See [pre-commit](https://pre-commit.com/#install) for instructions on
+installing pre-commit.  After installation, install pre-commit hooks
+for this repo in your local checkout:
+
+```
+pre-commit install
+```
+
+
+### Poetry install of dependencies
+
+Install dependencies via *poetry*, or read `requirements.in`
+
+```
+poetry install
+```
+
+Load some required spacy models.  Most tools use *en_core_web_sm*.  The
+*similar.py* tool needs *en_core_web_lg*.
+
+```
+python -m spacy download en_core_web_sm
+```
+
+Run tests with pytest:
+
+```
+pytest
+```
+
+### Pip install of dependencies
+
+To install dependencies using *pip* instead of *poetry*
+
+```
+pip install -r requirements.txt
+```
+
+Load some required spacy models.  Most tools use *en_core_web_sm*.  The
+*similar.py* tool needs *en_core_web_lg*.
+
+```
+python -m spacy download en_core_web_sm
+```
+
+Run tests with pytest:
+
+```
+pytest
+```
 
 ## Component extraction
 
@@ -390,34 +444,6 @@ Use the `--threshold FLOAT` option to adjust the threshold where
 statements/sentences are considered similar.  The default value is
 0.95.
 
-## Dev notes
-
-See [pre-commit](https://pre-commit.com/#install) for instructions on
-installing pre-commit.  After installation, install pre-commit hooks
-for this repo in your local checkout:
-
-```
-pre-commit install
-```
-
-Install dependencies via *poetry*, or read `requirements.in`
-
-```
-poetry install
-```
-
-Load some required spacy models.  Most tools use *en_core_web_sm*.  The
-*similar.py* tool needs *en_core_web_lg*.
-
-```
-python -m spacy download en_core_web_sm
-```
-
-Run tests with pytest:
-
-```
-pytest
-```
 
 ## License
 
