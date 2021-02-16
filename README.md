@@ -277,10 +277,10 @@ you can override this with the `--catalog CATALOG`` option.  Valid choices are:
 - NIST_SP-800-53_rev5
 - NIST_SP-800-171_rev1
 
-### components.json
+### Tailoring discovery
 
-You can supply a components.json file to `ssp.py recognize
---components FILE` to filter and refine how components are identified.
+You can supply a JSON file to `ssp.py recognize
+--components FILE` to tailor how components are identified.
 
 1. You can exclude certain candidate components from consideration by
    adding them to the `not_components` list.
@@ -288,7 +288,8 @@ You can supply a components.json file to `ssp.py recognize
 1. You can define a canonical name for a component and list synonyms
    by adding entries to the `components` map.
 
-Example:
+Example format showing a known component with aliases, and an entity
+which is known not to be a component.
 
 ```
 {
@@ -494,6 +495,46 @@ Use the `--threshold FLOAT` option to adjust the threshold where
 statements/sentences are considered similar.  The default value is
 0.95.
 
+## prefect-pipeline.py (experimental)
+
+`prefect-pipeline.py` demonstrates using Prefect to construct a
+pipeline similar to `sample-pipeline.py`. It takes a component
+tailoring JSON file, a source directory which will be scanned for
+JSON-L files, and an output directory.  The output consists of an
+OSCAL component definition file and a directory full of markdown.
+
+```
+python prefect-pipeline.py data/ssp-components.json data/ssps data/prefect-output
+```
+
+## Dev notes
+
+See [pre-commit](https://pre-commit.com/#install) for instructions on
+installing pre-commit.  After installation, install pre-commit hooks
+for this repo in your local checkout:
+
+```
+pre-commit install
+```
+
+Install dependencies via *poetry*, or read `requirements.in`
+
+```
+poetry install
+```
+
+Load some required spacy models.  Most tools use *en_core_web_sm*.  The
+*similar.py* tool needs *en_core_web_lg*.
+
+```
+python -m spacy download en_core_web_sm
+```
+
+Run tests with pytest:
+
+```
+pytest
+```
 
 ## License
 
