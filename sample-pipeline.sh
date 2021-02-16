@@ -19,7 +19,7 @@ echo "Matching components in data/ssps/ssp2.jsonl: writing data/components/ssp2-
 python ssp.py --reader json-l match --components data/ssp-components.json data/ssps/ssp2.jsonl > data/components/ssp2-components.json
 
 echo "Combining components: writing data/components/combined.json"
-python combine.py data/components/ssp1-components.json data/components/ssp2-components.json > data/components/combined.json
+python ssp.py combine data/components/ssp1-components.json data/components/ssp2-components.json > data/components/combined.json
 
 echo "Generating OSCAL component-definition: writing data/components/oscal.json"
 python oscalize.py --title 'SSP Toolkit Components (subset)' data/components/combined.json > data/components/oscal.json

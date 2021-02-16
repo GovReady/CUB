@@ -1,3 +1,7 @@
+#
+# This is a toy example of a prefect.io pipeline for
+# processsing SSPs using
+#
 import tempfile
 from pathlib import Path
 
@@ -5,7 +9,6 @@ import click
 from prefect import Flow
 from prefect import Parameter
 from prefect import task
-from prefect.engine.results import LocalResult
 from prefect.tasks.shell import ShellTask
 from prefect.utilities.edges import unmapped
 
@@ -37,7 +40,7 @@ def combine(components):
         component_file.close()
 
     paths_arg = " ".join(paths)
-    command = "python combine.py {}".format(paths_arg)
+    command = "python ssp.py combine {}".format(paths_arg)
     return "\n".join(ShellTask(command=command, return_all=True).run())
 
 
@@ -83,8 +86,13 @@ def write_file(s, path):
     required=True,
 )
 def main(component_spec_file, src_dir, dest_dir, title):
-    result = LocalResult(dir="./results")
-    with Flow("SSP Pipeline", result=result) as flow:
+    """
+    Runs a parameterized pipeline that processes all the SSP's in the
+    SRC_DIR and places output files in the DEST_DIR.  The COMPONENT_SPEC_FILE
+    is supplied to the *match* phase.
+    """
+
+    with Flow("SSP Pipeline") as flow:
         src = Parameter("src")
         dest = Parameter("dest")
         component_spec = Parameter("component_spec")

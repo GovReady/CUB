@@ -457,5 +457,36 @@ def sample(ctx, filename, number):
         print(text)
 
 
+@cli.command()
+@click.pass_context
+@click.argument("component_files", type=click.File("r"), nargs=-1)
+def combine(ctx, component_files):
+    """
+    Combine the results of recognition/matching for individual SSPs into a combined
+    representation.
+    """
+
+    ssps = [json.load(component_file) for component_file in component_files]
+    combined = {"metadata": list(), "components": defaultdict(dict)}
+
+    for ssp in ssps:
+        combined["metadata"].append(ssp["metadata"])
+
+        catalog = ssp["metadata"]["catalog"]
+        source = ssp["metadata"]["source"]
+
+        for component in ssp["components"]:
+            combined_component = combined["components"][component]
+            if catalog not in combined_component:
+                combined_component[catalog] = defaultdict(list)
+            for statement in ssp["components"][component]:
+                control = statement["control"]
+                text = statement["text"]
+                item = {"source": source, "text": text}
+                combined_component[catalog][control].append(item)
+
+    print(json.dumps(combined, indent=2))
+
+
 if __name__ == "__main__":
     cli()

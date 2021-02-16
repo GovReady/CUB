@@ -57,6 +57,10 @@ Run tests with pytest:
 pytest
 ```
 
+**NOTE**: this package is under active development.  No guarantees
+about backwards compatiblity of APIs, command lines, etc. are made
+right now.
+
 ## Component extraction
 
 ### Overview
@@ -77,7 +81,7 @@ pytest
   other candidate components.
 - Reapply the model, and refine `components.json` as needed.
 - Combine the results of applying the model to muliple SSPs using
-  `combine.py`
+  `ssp.py combine`
 - Generate markdown for each component with `component_report.py`
 
 There are some sample data files in the `data` directory.
@@ -89,12 +93,12 @@ processing using sample data.
 
 ```mermaid
 graph TD;
-    ssps[(SSP's)]
+    ssps[(SSP's<br/>tabular)]
     tailoring[("Component Tailoring<br/>(json)")]
     ssps -- json-l/csv --> sample
     ssps -- json-l/csv --> recognize
     ssps -- json-l/csv --> match
-    train-->model
+    train --> model
     tailoring --> recognize
     tailoring --> match
     r-component -- 0 or more --> combine
@@ -104,9 +108,9 @@ graph TD;
     annotator[[NER annotator]]
     a2t[annotations_to_training.py]
     train[train.py]
-    sample--text-->annotator
-    annotator--json-->a2t
-    a2t--json-->train
+    sample -- text --> annotator
+    annotator -- json --> a2t
+    a2t -- json --> train
     model[(spacy model)]
     end
 
@@ -122,10 +126,10 @@ graph TD;
     end
 
     subgraph make-oscal [OSCAL]
-    combine[combine.py]
+    combine[ssp.py combine]
     oscalizer[oscalizer.py]
     oscal[(OSCAL<br/>component-definition)]
-    combine --json<br/>combined format--> oscalizer
+    combine -- json<br/>combined format --> oscalizer
     oscalizer -- json --> oscal
     end
 
@@ -324,21 +328,21 @@ the `ssp.py match` command:
 python ssp.py --reader csv match --components components.json SSP1.csv
 ```
 
-### combine.py
+### ssp.py combine
 
-`combine.py` takes the component output from runs of `ssp.py
+`ssp.py combine` takes the component output from runs of `ssp.py
 recognize` against multiple SSPs and produces a single representation
 of all control statements associated with recognized components across
 the SSPs.
 
 ```
-python combine.py SSP1.json SSP2.json SSP3.json > combined.json
+python ssp.py combine SSP1.json SSP2.json SSP3.json > combined.json
 ```
 
 ### component_report.py
 
-`component_report.py` takes the output of `combine.py` and creates a
-Markdown file per component in an output directory.
+`component_report.py` takes the output of `ssp.py combine` and creates
+a Markdown file per component in an output directory.
 
 ```
 python component_report.py combined.json output-dir
@@ -346,8 +350,8 @@ python component_report.py combined.json output-dir
 
 ### oscalize.py
 
-Given a JSON combined component file produced by `combine.py`, `oscal.py` generates
-a JSON OSCAL component file on stdout.
+Given a JSON combined component file produced by `ssp.py combine`,
+`oscal.py` generates a JSON OSCAL component file on stdout.
 
 ```
 python oscalize.py --title "My Title" combined.json > oscal-components.json
@@ -383,7 +387,7 @@ python oscal.py --title "My Components" --batch-output batched-components combin
 
 ### selector.py (experimental)
 
-Given a JSON combined component file produced by `combine.py` and a
+Given a JSON combined component file produced by `ssp.py combine` and a
 control selector specification file, `selector.py` produces a new JSON
 file collated by the control sets specified in the specification file.
 It can optionally write markdown files for each control set.
