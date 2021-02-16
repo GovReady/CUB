@@ -142,7 +142,7 @@ zict = ">=0.1.3"
 
 [[package]]
 name = "docker"
-version = "4.4.1"
+version = "4.4.2"
 description = "A Python library for the Docker Engine API."
 category = "main"
 optional = false
@@ -194,18 +194,6 @@ description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
-name = "importlib-resources"
-version = "5.1.0"
-description = "Read resources from Python packages"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.extras]
-docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
-testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "pytest-enabler", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [[package]]
 name = "iniconfig"
@@ -381,7 +369,7 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 name = "prefect"
-version = "0.14.6"
+version = "0.14.9"
 description = "The Prefect Core automation and scheduling engine."
 category = "main"
 optional = false
@@ -395,7 +383,6 @@ dask = ">=2.17.0"
 distributed = ">=2.17.0"
 docker = ">=3.4.1"
 graphviz = {version = ">=0.8.3", optional = true, markers = "extra == \"viz\""}
-importlib-resources = {version = ">=3.0.0", markers = "python_version < \"3.9\""}
 marshmallow = ">=3.0.0b19"
 marshmallow-oneofschema = ">=2.0.0b2"
 msgpack = ">=0.6.0"
@@ -414,16 +401,17 @@ urllib3 = ">=1.24.3"
 
 [package.extras]
 airtable = ["airtable-python-wrapper (>=0.11,<0.12)"]
-all_extras = ["airtable-python-wrapper (>=0.11,<0.12)", "boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "azureml-sdk (>=1.0.65,<1.1)", "azure-cosmos (>=3.1.1,<3.2)", "atlassian-python-api (>=2.0.1)", "dask-cloudprovider[aws] (>=0.2.0,<1.0)", "black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)", "dropbox (>=9.0,<10.0)", "great-expectations (>=0.11.1)", "google-cloud-bigquery (>=1.6.0,<2.0)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "gspread (>=3.6.0)", "jira (>=2.0.0)", "papermill (>=2.2.0)", "nbconvert (>=6.0.7)", "dask-kubernetes (>=0.8.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)", "pandas (>=1.0.1)", "psycopg2-binary (>=2.8.2)", "pymysql (>=0.9.3)", "pyodbc (>=4.0.30)", "pushbullet.py (>=0.11.0)", "redis (>=3.2.1)", "feedparser (>=5.0.1,<6.0)", "snowflake-connector-python (>=1.8.2,<2.5)", "spacy (>=2.0.0,<3.0.0)", "graphviz (>=0.8.3)", "tweepy (>=3.5,<4.0)", "pyarrow (>=0.15.1)"]
+all_extras = ["airtable-python-wrapper (>=0.11,<0.12)", "boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "azureml-sdk (>=1.0.65,<1.1)", "azure-cosmos (>=3.1.1,<3.2)", "atlassian-python-api (>=2.0.1)", "dask-cloudprovider[aws] (>=0.2.0)", "black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)", "dropbox (>=9.0,<10.0)", "great-expectations (>=0.11.1)", "google-cloud-bigquery (>=1.6.0,<2.0)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "gspread (>=3.6.0)", "jira (>=2.0.0)", "papermill (>=2.2.0)", "nbconvert (>=6.0.7)", "dask-kubernetes (>=0.8.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)", "pandas (>=1.0.1)", "psycopg2-binary (>=2.8.2)", "pymysql (>=0.9.3)", "pyodbc (>=4.0.30)", "pushbullet.py (>=0.11.0)", "redis (>=3.2.1)", "feedparser (>=5.0.1,<6.0)", "snowflake-connector-python (>=1.8.2,<2.5)", "spacy (>=2.0.0,<3.0.0)", "graphviz (>=0.8.3)", "tweepy (>=3.5,<4.0)", "pyarrow (>=0.15.1)", "pyexasol (>=0.16.1)"]
 all_orchestration_extras = ["boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "atlassian-python-api (>=2.0.1)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)"]
 aws = ["boto3 (>=1.9,<2.0)"]
 azure = ["azure-storage-blob (>=12.1.0,<13.0)", "azureml-sdk (>=1.0.65,<1.1)", "azure-cosmos (>=3.1.1,<3.2)"]
 base_library_ci = ["boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "atlassian-python-api (>=2.0.1)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)", "black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)", "pandas (>=1.0.1)", "jira (>=2.0.0)"]
 bitbucket = ["atlassian-python-api (>=2.0.1)"]
-dask_cloudprovider = ["dask-cloudprovider[aws] (>=0.2.0,<1.0)"]
+dask_cloudprovider = ["dask-cloudprovider[aws] (>=0.2.0)"]
 dev = ["black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)"]
 dremio = ["pyarrow (>=0.15.1)"]
 dropbox = ["dropbox (>=9.0,<10.0)"]
+exasol = ["pyexasol (>=0.16.1)"]
 gcp = ["google-cloud-bigquery (>=1.6.0,<2.0)", "google-cloud-storage (>=1.13,<2.0)"]
 ge = ["great-expectations (>=0.11.1)"]
 github = ["PyGithub (>=1.51,<2.0)"]
@@ -442,7 +430,7 @@ rss = ["feedparser (>=5.0.1,<6.0)"]
 snowflake = ["snowflake-connector-python (>=1.8.2,<2.5)"]
 spacy = ["spacy (>=2.0.0,<3.0.0)"]
 sql_server = ["pyodbc (>=4.0.30)"]
-task_library_ci = ["airtable-python-wrapper (>=0.11,<0.12)", "boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "azureml-sdk (>=1.0.65,<1.1)", "azure-cosmos (>=3.1.1,<3.2)", "atlassian-python-api (>=2.0.1)", "black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)", "dropbox (>=9.0,<10.0)", "great-expectations (>=0.11.1)", "google-cloud-bigquery (>=1.6.0,<2.0)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "gspread (>=3.6.0)", "jira (>=2.0.0)", "papermill (>=2.2.0)", "nbconvert (>=6.0.7)", "dask-kubernetes (>=0.8.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)", "pandas (>=1.0.1)", "psycopg2-binary (>=2.8.2)", "pymysql (>=0.9.3)", "pushbullet.py (>=0.11.0)", "redis (>=3.2.1)", "feedparser (>=5.0.1,<6.0)", "snowflake-connector-python (>=1.8.2,<2.5)", "spacy (>=2.0.0,<3.0.0)", "graphviz (>=0.8.3)", "tweepy (>=3.5,<4.0)", "pyarrow (>=0.15.1)"]
+task_library_ci = ["airtable-python-wrapper (>=0.11,<0.12)", "boto3 (>=1.9,<2.0)", "azure-storage-blob (>=12.1.0,<13.0)", "azureml-sdk (>=1.0.65,<1.1)", "azure-cosmos (>=3.1.1,<3.2)", "atlassian-python-api (>=2.0.1)", "black", "graphviz (>=0.8)", "jinja2 (>=2.0,<3.0)", "mypy (>=0.600,<0.801)", "Pygments (>=2.2,<3.0)", "pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)", "dropbox (>=9.0,<10.0)", "great-expectations (>=0.11.1)", "google-cloud-bigquery (>=1.6.0,<2.0)", "google-cloud-storage (>=1.13,<2.0)", "PyGithub (>=1.51,<2.0)", "python-gitlab (>=2.5.0,<3.0)", "gspread (>=3.6.0)", "jira (>=2.0.0)", "papermill (>=2.2.0)", "nbconvert (>=6.0.7)", "dask-kubernetes (>=0.8.0)", "kubernetes (>=9.0.0a1,<=11.0.0b2)", "pandas (>=1.0.1)", "psycopg2-binary (>=2.8.2)", "pymysql (>=0.9.3)", "pushbullet.py (>=0.11.0)", "redis (>=3.2.1)", "feedparser (>=5.0.1,<6.0)", "snowflake-connector-python (>=1.8.2,<2.5)", "spacy (>=2.0.0,<3.0.0)", "graphviz (>=0.8.3)", "tweepy (>=3.5,<4.0)", "pyarrow (>=0.15.1)", "pyexasol (>=0.16.1)"]
 templates = ["jinja2 (>=2.0,<3.0)"]
 test = ["pytest (>=5.0)", "testfixtures (>=6.10.3)", "pytest-cov (>=2.6)", "pytest-env (>=0.6.0)", "pytest-xdist (>=1.23)"]
 twitter = ["tweepy (>=3.5,<4.0)"]
@@ -531,7 +519,7 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 name = "python-box"
-version = "5.2.0"
+version = "5.3.0"
 description = "Advanced Python dictionaries with dot notation access"
 category = "main"
 optional = false
@@ -774,7 +762,7 @@ python-versions = ">= 3.5"
 
 [[package]]
 name = "tqdm"
-version = "4.56.1"
+version = "4.56.2"
 description = "Fast, Extensible Progress Meter"
 category = "main"
 optional = false
@@ -924,8 +912,8 @@ distributed = [
     {file = "distributed-2021.2.0.tar.gz", hash = "sha256:9150b99b2c28e7c238c486b117154abd545c6990080d084aaff02f803f86f75e"},
 ]
 docker = [
-    {file = "docker-4.4.1-py2.py3-none-any.whl", hash = "sha256:e455fa49aabd4f22da9f4e1c1f9d16308286adc60abaf64bf3e1feafaed81d06"},
-    {file = "docker-4.4.1.tar.gz", hash = "sha256:0604a74719d5d2de438753934b755bfcda6f62f49b8e4b30969a4b0a2a8a1220"},
+    {file = "docker-4.4.2-py2.py3-none-any.whl", hash = "sha256:20d71afc593486f2297bb7fb7406b03876f31894337e914a5062050c65085cab"},
+    {file = "docker-4.4.2.tar.gz", hash = "sha256:67f33d4cf95182db631a17eef7d666d2c91f624c1d3fbc4df6009cb2f2a4c604"},
 ]
 graph-theory = [
     {file = "graph-theory-2020.12.17.52432.tar.gz", hash = "sha256:a0194812bd699a4927ceccdba5c0cab22fea4b174cda5a5dd32d6d2da337c912"},
@@ -941,10 +929,6 @@ heapdict = [
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
     {file = "idna-2.10.tar.gz", hash = "sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6"},
-]
-importlib-resources = [
-    {file = "importlib_resources-5.1.0-py3-none-any.whl", hash = "sha256:885b8eae589179f661c909d699a546cf10d83692553e34dca1bf5eb06f7f6217"},
-    {file = "importlib_resources-5.1.0.tar.gz", hash = "sha256:bfdad047bce441405a49cf8eb48ddce5e56c696e185f59147a8b79e75e9e6380"},
 ]
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
@@ -1101,8 +1085,8 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 prefect = [
-    {file = "prefect-0.14.6-py3-none-any.whl", hash = "sha256:4084e1606907877055d1cd356a4e7edd7ba5d1d4328d30e27edd87784965ee2a"},
-    {file = "prefect-0.14.6.tar.gz", hash = "sha256:eb5d6bd22131352b0c84144cf111cf01cdd45deb4b6ec2011b64e0a5c4ebc1c1"},
+    {file = "prefect-0.14.9-py3-none-any.whl", hash = "sha256:ec20f849f58dcb349112916232e36cbaa30cafcab98026d20029d1dee053ef56"},
+    {file = "prefect-0.14.9.tar.gz", hash = "sha256:0ce08182623187f230cc20045eab489eb588ac5ee0745a37d2e5b5c82f036da0"},
 ]
 preshed = [
     {file = "preshed-3.0.5-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:572899224578d30f6a67fadecb3d62b824866b4d2b6bad73f71abf7585db1389"},
@@ -1193,8 +1177,8 @@ pytest = [
     {file = "pytest-6.2.2.tar.gz", hash = "sha256:9d1edf9e7d0b84d72ea3dbcdfd22b35fb543a5e8f2a60092dd578936bf63d7f9"},
 ]
 python-box = [
-    {file = "python-box-5.2.0.tar.gz", hash = "sha256:dd91aa847d2a773b510008902ba3ab083d690800f13e7c540cdaf8e2181e4431"},
-    {file = "python_box-5.2.0-py3-none-any.whl", hash = "sha256:dcc1a59087f39285b530d433eb6e095dc0e6740312e3eb564e2ef457787e97a6"},
+    {file = "python-box-5.3.0.tar.gz", hash = "sha256:4ed4ef5d34de505a65c01e3f1911de8cdb29484fcae0c035141dce535c6c194a"},
+    {file = "python_box-5.3.0-py3-none-any.whl", hash = "sha256:f2a531f9f5bbef078c175fad6abb31e9b59d40d121ea79993197e6bb221c6be6"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
@@ -1416,8 +1400,8 @@ tornado = [
     {file = "tornado-6.1.tar.gz", hash = "sha256:33c6e81d7bd55b468d2e793517c909b139960b6c790a60b7991b9b6b76fb9791"},
 ]
 tqdm = [
-    {file = "tqdm-4.56.1-py2.py3-none-any.whl", hash = "sha256:ab9b659241d82b8b51b2269ee243ec95286046bf06015c4e15a947cc15914211"},
-    {file = "tqdm-4.56.1.tar.gz", hash = "sha256:2874fa525c051177583ec59c0fb4583e91f28ccd3f217ffad2acdb32d2c789ac"},
+    {file = "tqdm-4.56.2-py2.py3-none-any.whl", hash = "sha256:a89be573bfddb81bb0b395a416d5e55e3ecc73ce95a368a4f6360bedea33195e"},
+    {file = "tqdm-4.56.2.tar.gz", hash = "sha256:11d544652edbdfc9cc41aa4c8a5c166513e279f3f2d9f1a9e1c89935b51de6ff"},
 ]
 typed-ast = [
     {file = "typed_ast-1.4.2-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:7703620125e4fb79b64aa52427ec192822e9f45d37d4b6625ab37ef403e1df70"},
