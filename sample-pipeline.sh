@@ -1,10 +1,12 @@
 #! /bin/sh
 
 # This script demonstrates a component processing pipeline using the sample SSP data files
-# in data/ssps
+# in `data/ssps`.
 #
-# This example uses the pattern matcher in ssp.py as opposed to the
+# This example uses the pattern matcher in `ssp.py` as opposed to the
 # named entity recgonizer, so it does not require training.
+#
+# Output written to git ignored directory `data/components`.
 #
 # TODO: provide an example of training!
 #
