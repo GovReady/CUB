@@ -57,6 +57,10 @@ Run tests with pytest:
 pytest
 ```
 
+**NOTE**: this package is under active development.  No guarantees
+about backwards compatiblity of APIs, command lines, etc. are made
+right now.
+
 ## Component extraction
 
 ### Overview
@@ -77,13 +81,59 @@ pytest
   other candidate components.
 - Reapply the model, and refine `components.json` as needed.
 - Combine the results of applying the model to muliple SSPs using
-  `combine.py`
+  `ssp.py combine`
 - Generate markdown for each component with `component_report.py`
 
 There are some sample data files in the `data` directory.
 
 The shell script `sample-pipeline.sh` demonstrates some very simple
 processing using sample data.
+
+### Data flows
+
+```mermaid
+graph TD;
+    ssps[(SSP's<br/>tabular)]
+    tailoring[("Component Tailoring<br/>(json)")]
+    ssps -- json-l/csv --> sample
+    ssps -- json-l/csv --> recognize
+    ssps -- json-l/csv --> match
+    train --> model
+    tailoring --> recognize
+    tailoring --> match
+    r-component -- 0 or more --> combine
+    m-component --0 or more --> combine
+    subgraph training [Training]
+    sample[ssp.py sample]
+    annotator[[NER annotator]]
+    a2t[annotations_to_training.py]
+    train[train.py]
+    sample -- text --> annotator
+    annotator -- json --> a2t
+    a2t -- json --> train
+    model[(spacy model)]
+    end
+
+    subgraph recognizer [Entity Recognition -- per SSP]
+    recognize[ssp.py recognize]
+    model --> recognize
+    recognize --> r-component[(ssp-components.json<br/>)]
+    end
+
+    subgraph matcher [Pattern Match -- per SSP]
+    match[ssp.py match]
+    match --> m-component[(ssp-components.json)]
+    end
+
+    subgraph make-oscal [OSCAL]
+    combine[ssp.py combine]
+    oscalizer[oscalizer.py]
+    oscal[(OSCAL<br/>component-definition)]
+    combine -- json<br/>combined format --> oscalizer
+    oscalizer -- json --> oscal
+    end
+
+```
 
 ### ssp.py (overview)
 
@@ -227,10 +277,10 @@ you can override this with the `--catalog CATALOG`` option.  Valid choices are:
 - NIST_SP-800-53_rev5
 - NIST_SP-800-171_rev1
 
-### components.json
+### Tailoring discovery
 
-You can supply a components.json file to `ssp.py recognize
---components FILE` to filter and refine how components are identified.
+You can supply a JSON file to `ssp.py recognize
+--components FILE` to tailor how components are identified.
 
 1. You can exclude certain candidate components from consideration by
    adding them to the `not_components` list.
@@ -238,7 +288,8 @@ You can supply a components.json file to `ssp.py recognize
 1. You can define a canonical name for a component and list synonyms
    by adding entries to the `components` map.
 
-Example:
+Example format showing a known component with aliases, and an entity
+which is known not to be a component.
 
 ```
 {
@@ -278,21 +329,21 @@ the `ssp.py match` command:
 python ssp.py --reader csv match --components components.json SSP1.csv
 ```
 
-### combine.py
+### ssp.py combine
 
-`combine.py` takes the component output from runs of `ssp.py
+`ssp.py combine` takes the component output from runs of `ssp.py
 recognize` against multiple SSPs and produces a single representation
 of all control statements associated with recognized components across
 the SSPs.
 
 ```
-python combine.py SSP1.json SSP2.json SSP3.json > combined.json
+python ssp.py combine SSP1.json SSP2.json SSP3.json > combined.json
 ```
 
 ### component_report.py
 
-`component_report.py` takes the output of `combine.py` and creates a
-Markdown file per component in an output directory.
+`component_report.py` takes the output of `ssp.py combine` and creates
+a Markdown file per component in an output directory.
 
 ```
 python component_report.py combined.json output-dir
@@ -300,8 +351,8 @@ python component_report.py combined.json output-dir
 
 ### oscalize.py
 
-Given a JSON combined component file produced by `combine.py`, `oscal.py` generates
-a JSON OSCAL component file on stdout.
+Given a JSON combined component file produced by `ssp.py combine`,
+`oscal.py` generates a JSON OSCAL component file on stdout.
 
 ```
 python oscalize.py --title "My Title" combined.json > oscal-components.json
@@ -337,7 +388,7 @@ python oscal.py --title "My Components" --batch-output batched-components combin
 
 ### selector.py (experimental)
 
-Given a JSON combined component file produced by `combine.py` and a
+Given a JSON combined component file produced by `ssp.py combine` and a
 control selector specification file, `selector.py` produces a new JSON
 file collated by the control sets specified in the specification file.
 It can optionally write markdown files for each control set.
@@ -444,6 +495,46 @@ Use the `--threshold FLOAT` option to adjust the threshold where
 statements/sentences are considered similar.  The default value is
 0.95.
 
+## prefect-pipeline.py (experimental)
+
+`prefect-pipeline.py` demonstrates using Prefect to construct a
+pipeline similar to `sample-pipeline.py`. It takes a component
+tailoring JSON file, a source directory which will be scanned for
+JSON-L files, and an output directory.  The output consists of an
+OSCAL component definition file and a directory full of markdown.
+
+```
+python prefect-pipeline.py data/ssp-components.json data/ssps data/prefect-output
+```
+
+## Dev notes
+
+See [pre-commit](https://pre-commit.com/#install) for instructions on
+installing pre-commit.  After installation, install pre-commit hooks
+for this repo in your local checkout:
+
+```
+pre-commit install
+```
+
+Install dependencies via *poetry*, or read `requirements.in`
+
+```
+poetry install
+```
+
+Load some required spacy models.  Most tools use *en_core_web_sm*.  The
+*similar.py* tool needs *en_core_web_lg*.
+
+```
+python -m spacy download en_core_web_sm
+```
+
+Run tests with pytest:
+
+```
+pytest
+```
 
 ## License
 
